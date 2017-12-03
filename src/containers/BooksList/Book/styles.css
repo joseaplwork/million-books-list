@@ -1,0 +1,66 @@
+.BooksListItem-card {
+  background: white;
+  border-radius: 4px;
+  padding: 10px;
+  color: #4B6779;
+  max-width: 400px;
+  margin: 0 auto;
+  margin-bottom: 15px;
+  display: flex;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.BooksListItem-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+}
+
+.BooksListItem-publish-date {
+  font-size: 0.75rem;
+  padding-top: 1em;
+}
+
+.BooksListItem-info {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  padding-left: 1.5em;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.BooksListItem-title {
+  font-size: 1.35rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.BooksListItem-genre {
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 0.85em;
+  color: #a0a0a0;
+}
+
+.BooksListItem-aditional-info {
+  font-size: 1rem;
+  padding-top: 1.8em;
+  display: flex;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.BooksListItem-aditional-info span:first-child {
+  padding-right: 0.5rem;
+}
+
+.BooksListItem-aditional-info span:last-child {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -1,0 +1,7 @@
+export const ROW_HEIGHT = 134;
+
+export const actionTypes = {
+  REQUEST: 'BOOKSLIST/REQUEST',
+  SUCCESS: 'BOOKSLIST/SUCCESS',
+  FAILURE: 'BOOKSLIST/FAILURE',
+}
