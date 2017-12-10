@@ -2,7 +2,7 @@ import { actionTypes as booksFiltersAt } from 'containers/BooksFilters/constants
 import { actionTypes as at } from './constants';
 
 const initialState = {
-  data: [],
+  filters: {},
   books: [],
   loading: false
 };
@@ -15,24 +15,33 @@ export default (state = initialState, action) => {
       });
     case at.SUCCESS:
       return Object.assign({}, state, {
-        data: action.payload,
-        books: action.payload
+        books: action.payload,
+        loading: false
       });
     case at.FAILURE:
       return Object.assign({}, state, {
-        data: [],
-        books: []
+        books: [],
+        loading: false
       });
-    case booksFiltersAt.FILTER_BY_AUTHOR_GENDER:
+    case booksFiltersAt.FILTER_BOOKS: {
       const { payload } = action;
 
-      const filteredBooks = state.data.filter(({ author }) => {
-        return payload.includes(author.gender);
+      return Object.assign({}, state, {
+        filters: payload
+      });
+    }
+    case booksFiltersAt.BOOKS_BY_AUTHOR_NAME:
+    case booksFiltersAt.BOOKS_BY_BOOK_NAME: {
+      const { payload } = action;
+
+      const updatedFilters = Object.assign({}, state.filters, {
+        sortBooks: payload
       });
 
       return Object.assign({}, state, {
-        books: filteredBooks
+        filters: updatedFilters
       });
+    }
     default:
       return state;
   }

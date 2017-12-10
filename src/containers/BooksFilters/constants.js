@@ -1,9 +1,19 @@
-export const MALE = 'male';
-export const FEMALE = 'female';
+export const filterKeys = {
+  FILTER_AUTHOR_GENDER: 'filterAuthorGender',
+  SORT_BOOKS: 'sortBooks'
+}
+
+export const filterOptions = {
+  filterAuthorGender: {
+    AUTHOR_GENDER_MALE: 'authorGenderMale',
+    AUTHOR_GENDER_FEMALE: 'authorGenderFemale'
+  },
+  sortBooks: {
+    BOOKS_BY_BOOK_NAME: 'booksByBookName',
+    BOOKS_BY_AUTHOR_NAME: 'booksByAuthorName'
+  }
+}
 
 export const actionTypes = {
-  FILTER_BY_AUTHOR_GENDER: 'BOOKSFILTERS/FILTER_BY_AUTHOR_GENDER',
-  FILTER_BY_BOOK_GENRE: 'BOOKSFILTERS/FILTER_BY_BOOK_GENRE',
-  SORT_BY_BOOK_NAME: 'BOOKSFILTERS/SORT_BY_BOOK_NAME',
-  SORT_BY_AUTHOR_NAME: 'BOOKSFILTERS/SORT_BY_AUTHOR_NAME'
+  FILTER_BOOKS: 'BOOKSFILTERS/FILTER_BOOKS'
 };

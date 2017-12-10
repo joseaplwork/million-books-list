@@ -2,77 +2,103 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { palette } from 'config';
-import MaleIcon from 'components/Icons/Male';
-import FemaleIcon from 'components/Icons/Female';
 
-import { actionTypes as at, MALE, FEMALE } from './constants';
+import filtersState from './filtersState';
+import { filterKeys } from './constants';
+import { setActiveFilter, buildFiltersData } from './utils';
 import { filterChange } from './actions';
 import './styles.css';
 
+const { FILTER_AUTHOR_GENDER, SORT_BOOKS } = filterKeys;
+
 class BooksFilters extends PureComponent {
   state = {
-    authorGender: {
-      actionType: at.FILTER_BY_AUTHOR_GENDER,
-      values: [{
-        active: true,
-        Icon: MaleIcon,
-        value: MALE
-      }, {
-        active: true,
-        Icon: FemaleIcon,
-        value: FEMALE
-      }]
-    }
+    filters: filtersState
+  }
+
+  updateStateAndBuildAction(filter, filterId) {
+    const updatedState = setActiveFilter(this.state, filter, filterId);
+    const filters = buildFiltersData(updatedState.filters);
+
+    this.setState(updatedState, () => this.props.onFilterChange(filters));
   }
 
   handleIconChange = (event) => {
     const target = event.currentTarget;
-    const actionData = [];
-    const { actionType, values } = this.state.authorGender;
-    const { onFilterChange } = this.props;
-    const { gender } = target.dataset;
-    const updatedValues = values.map(item => {
-      const isActive = item.value === gender ? !item.active : item.active;
-      if (isActive) actionData.push(item.value);
+    const { filter, filterId } = target.dataset;
 
-      return Object.assign({}, item, {
-        active: item.value === gender ? !item.active : item.active
-      });
-    });
+    this.updateStateAndBuildAction(filter, filterId);
+  }
 
-    this.setState({ authorGender: {
-      actionType,
-      values: updatedValues
-    }}, () => onFilterChange(actionType, actionData));
+  handleSortChange = (event) => {
+    const target = event.currentTarget;
+    const { filter } = target.dataset;
+    const filterId = target.options[target.selectedIndex].value;
+    const updatedState = setActiveFilter(this.state, filter, filterId);
+
+    this.setState(updatedState);
   }
 
   renderAuthorGenderFilter() {
-    const { authorGender } = this.state;
+    const { filterAuthorGender } = this.state.filters;
 
     return (
       <div className="BooksFilters-icon-filters">
-        {authorGender.values.map(({ Icon, active, value }, index) => (
+        {filterAuthorGender.values.map(({ Icon, selected, value, id }, index) => (
           <div key={index} className="BooksFilters-icon-filter">
             <input
               type="checkbox"
-              data-gender={value}
-              checked={active}
+              data-filter={FILTER_AUTHOR_GENDER}
+              data-filter-id={id}
+              checked={selected}
               onChange={this.handleIconChange}
             />
-            <Icon color={active ? palette.gulfBlue : palette.echoBlue } />
+            <Icon color={selected ? palette.gulfBlue : palette.echoBlue } />
           </div>
         ))}
       </div>
     );
   }
 
+  renderSortFilter() {
+    const { sortBooks } = this.state.filters;
+    const selected = sortBooks.values.find(item => item.selected) || {};
+
+    return sortBooks.values.map(({ id, Arrow, value, asc }, index) => [
+      <div className="BooksFilters-sort-filter" key={id}>
+        <span style={{ color: typeof asc !== 'boolean' ? palette.echoBlue : palette.gulfBlue }}>{value}</span>
+        <input
+          type="checkbox"
+          data-filter={SORT_BOOKS}
+          data-filter-id={id}
+          checked={selected}
+          onChange={this.handleIconChange}
+        />
+        {<Arrow
+          inverted={!asc && typeof asc === 'boolean'}
+          color={typeof asc !== 'boolean' ? palette.echoBlue : palette.gulfBlue}
+          size="10"
+        />}
+      </div>,
+      <div key={index} className="BooksFilters-separator" />
+    ]);
+  }
+
   render() {
     return (
       <div className="BooksFilters-wrapper">
         <div className="BooksFilters-main">
-          <div className="BooksFilters-filters">
-            {this.renderAuthorGenderFilter()}
-            <div className="BooksFilters-separator" />
+          <div className="BooksFilters-filter-group">
+            <h3 className="BooksFilters-title">Filter: </h3>
+            <div className="BooksFilters-filters">
+              {this.renderAuthorGenderFilter()}
+            </div>
+          </div>
+          <div className="BooksFilters-filter-group">
+            <h3 className="BooksFilters-title">Sort: </h3>
+            <div className="BooksFilters-filters">
+              {this.renderSortFilter()}
+            </div>
           </div>
         </div>
       </div>

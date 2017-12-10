@@ -5,13 +5,19 @@ import BookIcon from 'components/Icons/Book';
 import MaleIcon from 'components/Icons/Male';
 import FemaleIcon from 'components/Icons/Female';
 
+import Placeholder from './Placeholder';
 import './styles.css';
 
 const Book = props => {
-  const { book, style } = props;
+  const { book, style, isScrolling } = props;
+
+  if (isScrolling) {
+    return (<Placeholder style={style} title={book.name} />);
+  }
+
   const date = new Date(book.publishDate);
   const textDate = formatDate(date);
-  const genderIcon = book.author.gender === 'male' ? <MaleIcon size={15} /> : <FemaleIcon size={15} />;
+  const genderIcon = book.author.gender.value === 'male' ? <MaleIcon size={15} /> : <FemaleIcon size={15} />;
 
   return (
     <div className="BooksListItem" style={style}>

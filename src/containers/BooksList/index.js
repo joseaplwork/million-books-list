@@ -7,6 +7,7 @@ import BooksFilters from 'containers/BooksFilters';
 import BookClosure from './Book';
 import { ROW_HEIGHT } from './constants';
 import { fetchBooks } from './actions';
+import { selectFilteredItems } from './selectors';
 import './styles.css';
 
 class BooksList extends Component {
@@ -36,7 +37,7 @@ class BooksList extends Component {
 
 export const mapStateToProps = store => {
   return {
-    books: store.booksList.books
+    books: selectFilteredItems(store)
   }
 }
 
