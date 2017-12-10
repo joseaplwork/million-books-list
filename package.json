@@ -3,22 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.1.1",
-    "react-dom": "^16.1.1",
-    "react-redux": "^5.0.6",
+    "react": "16.1.1",
+    "react-dom": "16.1.1",
+    "react-redux": "5.0.6",
     "react-scripts": "1.0.17",
-    "react-virtualized": "^9.13.0",
-    "redux": "^3.7.2",
-    "redux-api-middleware": "^2.0.1"
+    "react-virtualized": "9.13.0",
+    "redux": "3.7.2",
+    "redux-api-middleware": "2.0.1"
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development node generate-json.js && react-scripts start",
+    "start:prod": "serve -s build",
     "build": "cross-env NODE_ENV=production node generate-json.js && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "cross-env": "^5.1.1",
-    "write-json-file": "2.3.0"
+    "cross-env": "5.1.1",
+    "write-json-file": "2.3.0",
+    "serve": "6.4.1"
   }
 }

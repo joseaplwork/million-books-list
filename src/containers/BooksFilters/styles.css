@@ -19,6 +19,10 @@
   align-items: center;
 }
 
+.BooksFilters-filter-group:last-child {
+  margin-bottom: 0;
+}
+
 .BooksFilters-filter-group .BooksFilters-title {
   margin-top: 0;
   font-size: 1rem;
