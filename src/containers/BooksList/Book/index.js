@@ -11,7 +11,7 @@ const Book = props => {
   const { book, style, isScrolling } = props;
 
   if (isScrolling) {
-    return (<Placeholder style={style} title={book.name} />);
+    return (<Placeholder style={style} title={book && book.name} />);
   }
 
   const genderIcon = book.author.gender.value === 'male' ? <MaleIcon size={15} /> : <FemaleIcon size={15} />;

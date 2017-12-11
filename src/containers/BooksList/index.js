@@ -5,6 +5,7 @@ import { List } from 'react-virtualized';
 import BooksFilters from 'containers/BooksFilters';
 
 import BookClosure from './Book';
+import Placeholder from './Book/Placeholder';
 import { ROW_HEIGHT } from './constants';
 import { fetchBooks } from './actions';
 import { selectFilteredItems, selectIsLoading } from './selectors';
@@ -17,6 +18,12 @@ class BooksList extends Component {
 
   render() {
     const { books, width, height, isLoading } = this.props;
+    const component = isLoading ? Placeholder : BookClosure(books);
+    let placeholderCount;
+
+    if (isLoading) {
+      placeholderCount = 30;
+    }
 
     return (
       <div>
@@ -25,10 +32,9 @@ class BooksList extends Component {
           className="BooksList"
           width={width}
           height={height}
-          rowCount={books.length}
+          rowCount={placeholderCount || books.length}
           rowHeight={ROW_HEIGHT}
-          isLoading={isLoading}
-          rowRenderer={BookClosure(books)}
+          rowRenderer={component}
           books={books}
         />
       </div>

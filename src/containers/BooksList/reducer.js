@@ -4,28 +4,33 @@ import { actionTypes as at } from './constants';
 const initialState = {
   filters: {},
   books: [],
-  loading: false
+  loading: true,
+  done: false
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case at.REQUEST:
       return Object.assign({}, state, {
-        loading: true
+        loading: true,
+        done: false
       });
     case at.SUCCESS:
       return Object.assign({}, state, {
-        loading: false
+        done: true
       });
     case at.BOOKS_CHUNK: {
       const books = state.books.concat(action.payload);
 
-      return Object.assign({}, state, { books });
+      return Object.assign({}, state, {
+        books,
+        loading: false
+      });
     }
     case at.FAILURE:
       return Object.assign({}, state, {
         books: [],
-        loading: false
+        done: false
       });
     case booksFiltersAt.FILTER_BOOKS: {
       const { payload } = action;

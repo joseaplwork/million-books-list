@@ -41,13 +41,13 @@ function genetatePublishDate(){
   return [day, month, year].join('/');
 }
 
-
 const chunks = [];
 let data = [];
 let counter = 0;
 let index = 0;
 
-const limit = 1e+6;
+const params = JSON.parse(process.env.npm_config_argv);
+const limit = parseInt(params.remain.pop()) || 1e+6;
 const chunkParts = limit / 10;
 
 for (let i = 0; i < limit; i++) {
@@ -71,6 +71,6 @@ for (let i = 0; i < limit; i++) {
   }
 }
 
-const chunksPromises = Promise.all(chunks.map((data, index) => writeJsonFile(`public/books/chunk-${index + 1}.json`, data, { indent: null })));
+const chunksPromises = Promise.all(chunks.map((data, index) => writeJsonFile(`./public/books/chunk-${index + 1}.json`, data, { indent: null })));
 
 chunksPromises.then(() => console.log(`Book chunks generated`));
