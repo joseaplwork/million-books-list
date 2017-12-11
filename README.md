@@ -9,11 +9,13 @@ A page to show a million books list using react
 # Development
 To start the development mode run the command:   
 `
-  npm start
+  npm start <number : generated books limit>
 `
 
 # Production
 To start the production mode run the command:   
 `
-  npm run build && npm run start:prod
+  npm run build <number : generated books limit> && npm run start:prod
 `
+
+** The default limit is 1 000 000. **
