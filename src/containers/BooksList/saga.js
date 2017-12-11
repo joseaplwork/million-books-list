@@ -1,9 +1,12 @@
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery } from 'redux-saga/effects';
 import request from 'helpers/request';
-import { bookChunkLoaded } from './actions';
+import {
+  bookChunkLoaded, fetchBooksSuccess,
+  fetchBooksError
+} from './actions';
 import { actionTypes as at } from './constants';
 
-const { REQUEST, SUCCESS, FAILURE } = at;
+const { REQUEST } = at;
 
 function* fetchBooksSaga(action) {
   try {
@@ -17,14 +20,12 @@ function* fetchBooksSaga(action) {
       index++;
     }
 
-    yield put({type: SUCCESS, payload: []});
+    yield put(fetchBooksSuccess());
   } catch (e) {
-    yield put({type: FAILURE, message: e.message});
+    yield put(fetchBooksError(e.message));
   }
 }
 
-function* fetchBooksWatcher() {
+export default function* watcher() {
   yield takeEvery(REQUEST, fetchBooksSaga);
 }
-
-export default fetchBooksWatcher;

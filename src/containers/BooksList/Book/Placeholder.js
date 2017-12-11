@@ -1,7 +1,11 @@
 import React from 'react';
 
-const Placeholder = ({ style, title, key }) => {
-  const className = key ? 'BooksListItem-placeholder-animated' : 'BooksListItem-placeholder';
+const Placeholder = ({ style, title, key, parent }) => {
+  let loading;
+  if (parent) {
+    loading = parent && parent.props.isLoading ? <div width="20" height="20" className='BooksListItem-placeholder-loading' /> : null;
+    loading = parent && parent.props.isSorting ? <span className="BooksListItem-placeholder-sorting">Sorting...</span> : loading;
+  }
 
   const tag = title
   ? <text x="86.1" y="15" width="292" height="16.31" fill="#eee" fontSize="20" fontWeight="bold">{title}</text>
@@ -10,7 +14,7 @@ const Placeholder = ({ style, title, key }) => {
   return (
     <div {...{ key }} className="BooksListItem BooksListItem-placeholder" style={style}>
       <div className="BooksListItem-card">
-        <svg className={className} width="100%" height="100%" viewBox="0 0 378.1 92.1">
+        <svg width="100%" height="100%" viewBox="0 0 378.1 92.1">
           <circle fill="#eee" cx="34.3" cy="34.25" r="34.25"/>
           <rect fill="#eee" y="82.1" width="67.94" height="10"/>
           <circle fill="#eee" cx="95.37" cy="81.64" r="8.51"/>
@@ -18,6 +22,7 @@ const Placeholder = ({ style, title, key }) => {
           {tag}
           <rect fill="#eee" x="86.56" y="38.83" width="158.54" height="12.27"/>
         </svg>
+        {loading}
       </div>
     </div>
   );

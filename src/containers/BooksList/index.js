@@ -7,8 +7,8 @@ import BooksFilters from 'containers/BooksFilters';
 import BookClosure from './Book';
 import Placeholder from './Book/Placeholder';
 import { ROW_HEIGHT } from './constants';
-import { fetchBooks } from './actions';
-import { selectFilteredItems, selectIsLoading } from './selectors';
+import { fetchBooks, triggerFilter } from './actions';
+import { selectFilteredItems, selectIsLoading, selectIsSorting } from './selectors';
 import './styles.css';
 
 class BooksList extends Component {
@@ -16,13 +16,19 @@ class BooksList extends Component {
     this.props.onWillMount();
   }
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.isSorting && this.props.isSorting) {
+      setTimeout(() => this.props.onTriggerFilter(), 500);
+    }
+  }
+
   render() {
-    const { books, width, height, isLoading } = this.props;
-    const component = isLoading ? Placeholder : BookClosure(books);
+    const { books, width, height, isLoading, isSorting } = this.props;
+    const component = isLoading || isSorting ? Placeholder : BookClosure(books);
     let placeholderCount;
 
-    if (isLoading) {
-      placeholderCount = 30;
+    if (isLoading || isSorting) {
+      placeholderCount = 50;
     }
 
     return (
@@ -34,6 +40,8 @@ class BooksList extends Component {
           height={height}
           rowCount={placeholderCount || books.length}
           rowHeight={ROW_HEIGHT}
+          isSorting={isSorting}
+          isLoading={isLoading}
           rowRenderer={component}
           books={books}
         />
@@ -45,13 +53,15 @@ class BooksList extends Component {
 export const mapStateToProps = store => {
   return {
     books: selectFilteredItems(store),
-    isLoading: selectIsLoading(store)
+    isLoading: selectIsLoading(store),
+    isSorting: selectIsSorting(store)
   }
 }
 
 export const mapDispatchToProps = dispatch => {
   return {
-    onWillMount: () => dispatch(fetchBooks())
+    onWillMount: () => dispatch(fetchBooks()),
+    onTriggerFilter: () => dispatch(triggerFilter())
   };
 };
 

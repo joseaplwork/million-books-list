@@ -5,7 +5,7 @@
   padding: 1rem 0;
   z-index: 1000;
   background-color: #DBDFE8;
-  /*box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);*/
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
 .BooksFilters-main {
@@ -110,40 +110,3 @@
 .BooksFilters-icon-filter > input + svg rect {
   transition: fill 250ms;
 }
-
-/*.BooksFilters-sort-filters {
-  appearance: none;
-  padding: 1em 0.5em;
-  border: 0;
-  background: none;
-  color: #31405E;
-  border-radius: 0;
-  font-family: inherit;
-  font-size: 1rem;
-  font-weight: bold;
-  border-bottom: 2px solid #9FAFCA;
-  padding-right: 30px;
-  transition: color 250ms;
-  text-align: center;
-  outline: none;
-}
-
-.BooksFilters-sort-filters[data-value=''] {
-  color: rgba(49, 64, 94, 0.5);
-}
-
-.BooksFilters-sort-filters::-ms-expand {
-  display: none;
-}*/
-/*
-.BooksFilters-sort-filters-wrapper {
-  position: relative;
-}
-
-.BooksFilters-sort-filters-wrapper > svg {
-  position: absolute;
-  right: 5%;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: -1;
-}*/

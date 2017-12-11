@@ -1,15 +1,4 @@
 .BooksList {
-  padding: 100px 10px 0;
+  padding: 130px 10px 0;
   outline: none;
-}
-
-.BooksListItem-placeholder-animated circle,
-.BooksListItem-placeholder-animated rect {
-  animation: loading 2s linear infinite both;
-}
-
-@keyframes loading {
-  0% {fill-opacity: 0.4}
-  50% {fill-opacity: 1}
-  100% {fill-opacity: 0.4}
 }

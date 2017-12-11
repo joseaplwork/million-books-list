@@ -4,6 +4,8 @@ import { actionTypes as at } from './constants';
 const initialState = {
   filters: {},
   books: [],
+  error: false,
+  sorting: false,
   loading: true,
   done: false
 };
@@ -30,27 +32,21 @@ export default (state = initialState, action) => {
     case at.FAILURE:
       return Object.assign({}, state, {
         books: [],
+        error: true,
         done: false
       });
     case booksFiltersAt.FILTER_BOOKS: {
       const { payload } = action;
 
       return Object.assign({}, state, {
+        sorting: true,
         filters: payload
       });
     }
-    case booksFiltersAt.BOOKS_BY_AUTHOR_NAME:
-    case booksFiltersAt.BOOKS_BY_BOOK_NAME: {
-      const { payload } = action;
-
-      const updatedFilters = Object.assign({}, state.filters, {
-        sortBooks: payload
-      });
-
+    case at.TRIGGER_FILTER:
       return Object.assign({}, state, {
-        filters: updatedFilters
+        sorting: false
       });
-    }
     default:
       return state;
   }

@@ -1,8 +1,13 @@
 import { getSortOptionComparator } from './mapper';
 
+export const selectIsSorting = store => store.booksList.sorting;
 export const selectIsLoading = store => store.booksList.loading;
 
 export const selectFilteredItems = store => {
+  if (store.booksList.sorting) {
+    return [];
+  }
+
   const { books, filters } = store.booksList;
   let filteredBooks;
 
