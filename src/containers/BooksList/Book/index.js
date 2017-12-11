@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { formatDate } from 'helpers/dates';
 import BookIcon from 'components/Icons/Book';
 import MaleIcon from 'components/Icons/Male';
 import FemaleIcon from 'components/Icons/Female';
@@ -15,8 +14,6 @@ const Book = props => {
     return (<Placeholder style={style} title={book.name} />);
   }
 
-  const date = new Date(book.publishDate);
-  const textDate = formatDate(date);
   const genderIcon = book.author.gender.value === 'male' ? <MaleIcon size={15} /> : <FemaleIcon size={15} />;
 
   return (
@@ -24,7 +21,7 @@ const Book = props => {
       <div className="BooksListItem-card">
         <div className="BooksListItem-image">
           <BookIcon size="70" />
-          <p className="BooksListItem-publish-date"><span>{textDate}</span></p>
+          <p className="BooksListItem-publish-date"><span>{book.publishDate}</span></p>
         </div>
         <div className="BooksListItem-info">
           <p className="BooksListItem-title">{book.name}</p>

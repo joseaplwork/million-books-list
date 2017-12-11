@@ -7,7 +7,7 @@ import BooksFilters from 'containers/BooksFilters';
 import BookClosure from './Book';
 import { ROW_HEIGHT } from './constants';
 import { fetchBooks } from './actions';
-import { selectFilteredItems } from './selectors';
+import { selectFilteredItems, selectIsLoading } from './selectors';
 import './styles.css';
 
 class BooksList extends Component {
@@ -16,7 +16,7 @@ class BooksList extends Component {
   }
 
   render() {
-    const { books, width, height } = this.props;
+    const { books, width, height, isLoading } = this.props;
 
     return (
       <div>
@@ -27,6 +27,7 @@ class BooksList extends Component {
           height={height}
           rowCount={books.length}
           rowHeight={ROW_HEIGHT}
+          isLoading={isLoading}
           rowRenderer={BookClosure(books)}
           books={books}
         />
@@ -37,7 +38,8 @@ class BooksList extends Component {
 
 export const mapStateToProps = store => {
   return {
-    books: selectFilteredItems(store)
+    books: selectFilteredItems(store),
+    isLoading: selectIsLoading(store)
   }
 }
 

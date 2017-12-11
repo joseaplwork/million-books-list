@@ -9,7 +9,7 @@
 # production
 /build
 
-/public/books.json
+/public/books
 
 # misc
 .DS_Store

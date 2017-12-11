@@ -7,13 +7,13 @@ A page to show a million books list using react
 `
 
 # Development
-To start the development mode run the command:
+To start the development mode run the command:   
 `
   npm start
 `
 
 # Production
-To start the production mode run the command:
+To start the production mode run the command:   
 `
   npm run build && npm run start:prod
 `

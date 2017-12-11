@@ -15,9 +15,13 @@ export default (state = initialState, action) => {
       });
     case at.SUCCESS:
       return Object.assign({}, state, {
-        books: action.payload,
         loading: false
       });
+    case at.BOOKS_CHUNK: {
+      const books = state.books.concat(action.payload);
+
+      return Object.assign({}, state, { books });
+    }
     case at.FAILURE:
       return Object.assign({}, state, {
         books: [],

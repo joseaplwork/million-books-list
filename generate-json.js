@@ -27,20 +27,50 @@ function generateAuthorGender(bool) {
   }
 }
 
-const data = [];
-for (let i = 0; i < 1e+3; i++) {
-  data[i] = {
-    _id: i,
+function genetatePublishDate(){
+  const start = new Date(1970, 0, 1);
+  const end = new Date();
+  let d = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [day, month, year].join('/');
+}
+
+
+const chunks = [];
+let data = [];
+let counter = 0;
+let index = 0;
+
+const limit = 1e+6;
+const chunkParts = limit / 10;
+
+for (let i = 0; i < limit; i++) {
+  data[counter] = {
+    _id: i + 1,
     name: randomTitle(),
     genre: generateGenre(),
     author:{
       gender: generateAuthorGender(Math.random() >= 0.5),
       name: generateName()
     },
-    publishDate: 'Thu Jan 12 2017 22:54:56 GMT+0000 (UTC)',
+    publishDate: genetatePublishDate(),
+  };
+  counter += 1;
+
+  if (counter === chunkParts) {
+    chunks[index] = data;
+    data = [];
+    counter = 0;
+    index += 1;
   }
 }
 
-writeJsonFile('public/books.json', data, { indent: null }).then(() => {
-  console.log('Books json generated');
-});
+const chunksPromises = Promise.all(chunks.map((data, index) => writeJsonFile(`public/books/chunk-${index + 1}.json`, data, { indent: null })));
+
+chunksPromises.then(() => console.log(`Book chunks generated`));
