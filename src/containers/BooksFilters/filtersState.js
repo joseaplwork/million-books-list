@@ -21,12 +21,6 @@ export const filtersState = {
       value: 'Female'
     }]
   },
-  // bookGenre: {
-  //   id: at.FILTER_BY_BOOK_GENRE,
-  //   values: [{
-  //     value: ''
-  //   }]
-  // }
   [SORT_BOOKS]: {
     values: [{
       id: sb.BOOKS_BY_BOOK_NAME,
