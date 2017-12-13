@@ -7,11 +7,21 @@ import FemaleIcon from 'components/Icons/Female';
 import Placeholder from './Placeholder';
 import './styles.css';
 
+let lastVisible = false;
 const Book = props => {
-  const { book, style, isScrolling } = props;
+  const { book, style, isScrolling, isVisible, index } = props;
+
+  if (!lastVisible && isVisible && isScrolling) {
+    lastVisible = isVisible;
+    localStorage.setItem('index', index);
+  } else {
+    lastVisible = isVisible;
+  }
 
   if (isScrolling) {
-    return (<Placeholder style={style} title={book && book.name} />);
+    return (
+      <Placeholder style={style} title={book && book.name} />
+    );
   }
 
   const genderIcon = book.author.gender.value === 'male' ? <MaleIcon size={15} /> : <FemaleIcon size={15} />;

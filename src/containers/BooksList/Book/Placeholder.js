@@ -1,10 +1,10 @@
 import React from 'react';
 
 const Placeholder = ({ style, title, key, parent }) => {
-  let loading;
+  let status;
   if (parent) {
-    loading = parent && parent.props.isLoading ? <div width="20" height="20" className='BooksListItem-placeholder-loading' /> : null;
-    loading = parent && parent.props.isSorting ? <span className="BooksListItem-placeholder-sorting">Sorting...</span> : loading;
+    status = parent && parent.props.isLoading ? <div width="20" height="20" className='BooksListItem-placeholder-loading' /> : null;
+    status = parent && parent.props.isSorting ? <span className="BooksListItem-placeholder-sorting">Sorting...</span> : status;
   }
 
   const tag = title
@@ -22,7 +22,7 @@ const Placeholder = ({ style, title, key, parent }) => {
           {tag}
           <rect fill="#eee" x="86.56" y="38.83" width="158.54" height="12.27"/>
         </svg>
-        {loading}
+        {status}
       </div>
     </div>
   );
