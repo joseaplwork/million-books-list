@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { List } from 'react-virtualized';
+import { InfiniteLoader, List } from 'react-virtualized';
+import { env } from 'config';
 
 import BooksFilters from 'containers/BooksFilters';
 
@@ -10,13 +11,18 @@ import { ROW_HEIGHT } from './constants';
 import { fetchBooks, triggerFilter } from './actions';
 import {
   selectFilteredItems, selectIsLoading,
-  selectIsSorting
+  selectIsSorting, selectIsChunkIteration,
+  selectIsDone
 } from './selectors';
 import './styles.css';
 
 class BooksList extends Component {
+  state = {
+    booksLimit: env.booksLimit
+  }
+
   componentWillMount() {
-    this.props.onWillMount();
+    this.dispatchOnFetchBooks();
   }
 
   componentDidUpdate(prevProps) {
@@ -25,9 +31,26 @@ class BooksList extends Component {
     }
   }
 
+  dispatchOnFetchBooks() {
+    const { onFetchBooks, iteration } = this.props;
+
+    onFetchBooks(iteration);
+  }
+
+  isRowLoaded = ({ index }) => {
+    const { books, isDone } = this.props;
+
+    return (books.length === 0 || !!books[index] || isDone);
+  }
+
+  loadMoreRows = (data) => {
+    this.dispatchOnFetchBooks();
+  }
+
   render() {
     const { books, width, height, isLoading, isSorting } = this.props;
     const component = isLoading || isSorting ? Placeholder : BookClosure(books);
+    const threshold = 1;
     let index = parseInt(localStorage.getItem('index') || 0, 10);
     let placeholderCount;
 
@@ -40,18 +63,29 @@ class BooksList extends Component {
     return (
       <div>
         <BooksFilters />
-        <List
-          className="BooksList"
-          width={width}
-          height={height}
-          rowCount={placeholderCount || books.length}
-          rowHeight={ROW_HEIGHT}
-          isSorting={isSorting}
-          isLoading={isLoading}
-          scrollToIndex={index}
-          rowRenderer={component}
-          books={books}
-        />
+        <InfiniteLoader
+          isRowLoaded={this.isRowLoaded}
+          loadMoreRows={this.loadMoreRows}
+          rowCount={this.state.booksLimit}
+          threshold={threshold}
+        >
+          {({ onRowsRendered, registerChild }) => (
+            <List
+              className="BooksList"
+              width={width}
+              height={height}
+              onRowsRendered={onRowsRendered}
+              ref={registerChild}
+              isSorting={isSorting}
+              isLoading={isLoading}
+              scrollToIndex={index}
+              rowCount={placeholderCount || books.length}
+              rowHeight={ROW_HEIGHT}
+              rowRenderer={component}
+              books={books}
+            />
+          )}
+        </InfiniteLoader>
       </div>
     );
   }
@@ -59,7 +93,9 @@ class BooksList extends Component {
 
 export const mapStateToProps = store => {
   return {
+    iteration: selectIsChunkIteration(store),
     books: selectFilteredItems(store),
+    isDone: selectIsDone(store),
     isLoading: selectIsLoading(store),
     isSorting: selectIsSorting(store)
   }
@@ -67,7 +103,7 @@ export const mapStateToProps = store => {
 
 export const mapDispatchToProps = dispatch => {
   return {
-    onWillMount: () => dispatch(fetchBooks()),
+    onFetchBooks: (iteration) => dispatch(fetchBooks(iteration)),
     onTriggerFilter: () => dispatch(triggerFilter())
   };
 };

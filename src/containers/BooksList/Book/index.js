@@ -12,8 +12,8 @@ const Book = props => {
   const { book, style, isScrolling, isVisible, index } = props;
 
   if (!lastVisible && isVisible && isScrolling) {
-    lastVisible = isVisible;
     localStorage.setItem('index', index);
+    lastVisible = isVisible;
   } else {
     lastVisible = isVisible;
   }

@@ -1,5 +1,7 @@
 import { getSortOptionComparator } from './mapper';
 
+export const selectIsChunkIteration = store => store.booksList.chunkIteration;
+export const selectIsDone = store => store.booksList.done;
 export const selectIsSorting = store => store.booksList.sorting;
 export const selectIsLoading = store => store.booksList.loading;
 

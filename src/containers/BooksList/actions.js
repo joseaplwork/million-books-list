@@ -1,11 +1,11 @@
 import { actionTypes as at } from './constants';
 
-export const fetchBooks = () => {
+export const fetchBooks = interaction => {
   return {
     type: at.REQUEST,
     payload: {
       path: './books',
-      chunks: 10
+      interaction
     }
   }
 };

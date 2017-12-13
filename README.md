@@ -5,17 +5,27 @@ A page to show a million books list using react
 `
   npm install
 `
+# ENVIRONMENT VARIABLES
+Depending the script we run either `production` or `development` both will be read   
+from the local `env` files, if you want test custom `env` locally you can create the   
+`.env.development.local` or `.env.production.local` file which will have more priority   
+over `.env.development`, `.env.production` and `.env`.
+
+`
+  **REACT_APP_BOOKS_LIMIT** // Total books limit generated
+  **REACT_APP_CHUNK_PARTS** // Amount of chunks to be loaded
+`
 
 # Development
 To start the development mode run the command:   
 `
-  npm start <number : generated books limit>
+  npm start
 `
 
 # Production
 To start the production mode run the command:   
 `
-  npm run build <number : generated books limit> && npm run start:prod
+  npm run build && npm run start:prod
 `
 
 ** The default limit is 1 000 000. **

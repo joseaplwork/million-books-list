@@ -1,9 +1,12 @@
+import { env } from 'config';
 import { actionTypes as booksFiltersAt } from 'containers/BooksFilters/constants';
 import { actionTypes as at } from './constants';
 
 const initialState = {
   filters: {},
   books: [],
+  chunks: env.chunkParts,
+  chunkIteration: 1,
   error: false,
   sorting: false,
   loading: true,
@@ -14,18 +17,19 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case at.REQUEST:
       return Object.assign({}, state, {
-        loading: true,
-        done: false
+        loading: state.chunkIteration === 1,
+        done: state.chunkIteration === state.chunks
       });
     case at.SUCCESS:
       return Object.assign({}, state, {
-        done: true
+        done: true,
       });
     case at.BOOKS_CHUNK: {
       const books = state.books.concat(action.payload);
 
       return Object.assign({}, state, {
         books,
+        chunkIteration: state.chunkIteration + 1,
         loading: false
       });
     }
