@@ -50,7 +50,7 @@ class BooksList extends Component {
   render() {
     const { books, width, height, isLoading, isSorting } = this.props;
     const component = isLoading || isSorting ? Placeholder : BookClosure(books);
-    const threshold = 1;
+    const threshold = 20;
     let index = parseInt(localStorage.getItem('index') || 0, 10);
     let placeholderCount;
 
