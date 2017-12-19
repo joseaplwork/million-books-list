@@ -17,6 +17,7 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case at.REQUEST:
       return Object.assign({}, state, {
+        filters: {},
         loading: state.chunkIteration === 1,
         done: state.chunkIteration === state.chunks
       });

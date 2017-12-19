@@ -16,6 +16,14 @@ class BooksFilters extends PureComponent {
     filters: filtersState
   }
 
+  componentWillUpdate(nextProps) {
+    if (!this.props.resetFilters && nextProps.resetFilters) {
+      this.setState({
+        filters: filtersState,
+      });
+    }
+  }
+
   updateStateAndBuildAction(filter, filterId) {
     const updatedState = setActiveFilter(this.state, filter, filterId);
     const filters = buildFiltersData(updatedState.filters);
@@ -23,20 +31,11 @@ class BooksFilters extends PureComponent {
     this.setState(updatedState, () => this.props.onFilterChange(filters));
   }
 
-  handleIconChange = (event) => {
+  handleFilterChange = (event) => {
     const target = event.currentTarget;
     const { filter, filterId } = target.dataset;
 
     this.updateStateAndBuildAction(filter, filterId);
-  }
-
-  handleSortChange = (event) => {
-    const target = event.currentTarget;
-    const { filter } = target.dataset;
-    const filterId = target.options[target.selectedIndex].value;
-    const updatedState = setActiveFilter(this.state, filter, filterId);
-
-    this.setState(updatedState);
   }
 
   renderAuthorGenderFilter() {
@@ -51,7 +50,7 @@ class BooksFilters extends PureComponent {
               data-filter={FILTER_AUTHOR_GENDER}
               data-filter-id={id}
               checked={selected}
-              onChange={this.handleIconChange}
+              onChange={this.handleFilterChange}
             />
             <Icon color={selected ? palette.gulfBlue : palette.echoBlue } />
           </div>
@@ -72,7 +71,7 @@ class BooksFilters extends PureComponent {
           data-filter={SORT_BOOKS}
           data-filter-id={id}
           checked={selected}
-          onChange={this.handleIconChange}
+          onChange={this.handleFilterChange}
         />
         {<Arrow
           inverted={!asc && typeof asc === 'boolean'}
@@ -106,10 +105,16 @@ class BooksFilters extends PureComponent {
   }
 }
 
+export const mapStateToProps = store => {
+  return {
+    resetFilters: store.booksFilters.resetFilters
+  };
+};
+
 export const mapDispatchToProps = dispatch => {
   return {
     onFilterChange: (type, value) => dispatch(filterChange(type, value))
   };
 };
 
-export default connect(null, mapDispatchToProps)(BooksFilters);
+export default connect(mapStateToProps, mapDispatchToProps)(BooksFilters);

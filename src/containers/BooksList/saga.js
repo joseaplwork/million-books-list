@@ -1,5 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import request from 'helpers/request';
+import { resetFilters } from 'containers/BooksFilters/actions';
 import { bookChunkLoaded, fetchBooksError } from './actions';
 import { actionTypes as at } from './constants';
 
@@ -8,6 +9,8 @@ const { REQUEST } = at;
 function* fetchBooksSaga(action) {
   try {
     const { path, interaction } = action.payload;
+
+    yield put(resetFilters());
 
     const composedUrl = `${path}/chunk-${interaction}.json`;
     const data = yield call(request, composedUrl);
