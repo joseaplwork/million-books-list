@@ -62,7 +62,7 @@ class BooksList extends Component {
     if (isFirstLoadingOrSorting) {
       localStorage.removeItem('index');
       index = 0;
-      placeholderCount = 50;
+      placeholderCount = Math.ceil(height / ROW_HEIGHT);
     }
 
     return (
