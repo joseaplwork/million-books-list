@@ -18,12 +18,8 @@ export default (state = initialState, action) => {
     case at.REQUEST:
       return Object.assign({}, state, {
         filters: {},
-        loading: state.chunkIteration === 1,
+        loading: true,
         done: state.chunkIteration === state.chunks
-      });
-    case at.SUCCESS:
-      return Object.assign({}, state, {
-        done: true,
       });
     case at.BOOKS_CHUNK: {
       const books = state.books.concat(action.payload);

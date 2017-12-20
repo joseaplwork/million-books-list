@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { InfiniteLoader, List } from 'react-virtualized';
 import { env } from 'config';
 
+import FloatingLoading from 'components/FloatingLoading';
 import BooksFilters from 'containers/BooksFilters';
 
 import BookClosure from './Book';
@@ -44,17 +45,21 @@ class BooksList extends Component {
   }
 
   loadMoreRows = (data) => {
-    this.dispatchOnFetchBooks();
+    if (!this.props.isLoading) {
+      this.dispatchOnFetchBooks();
+    }
   }
 
   render() {
-    const { books, width, height, isLoading, isSorting } = this.props;
-    const component = isLoading || isSorting ? Placeholder : BookClosure(books);
-    const threshold = 20;
+    const { books, width, height, isLoading, isSorting, iteration } = this.props;
+    const isFirstLoadingOrSorting = (isLoading && iteration === 1) || isSorting;
+    const isFetchingChunk = isLoading && iteration > 1;
     let index = parseInt(localStorage.getItem('index') || 0, 10);
+    const component = isFirstLoadingOrSorting ? Placeholder : BookClosure(books);
+    const threshold = Math.max(Math.round((env.booksLimit / env.chunkParts) / 10), 1);
     let placeholderCount;
 
-    if (isLoading || isSorting) {
+    if (isFirstLoadingOrSorting) {
       localStorage.removeItem('index');
       index = 0;
       placeholderCount = 50;
@@ -86,6 +91,7 @@ class BooksList extends Component {
             />
           )}
         </InfiniteLoader>
+        <FloatingLoading show={isFetchingChunk}/>
       </div>
     );
   }

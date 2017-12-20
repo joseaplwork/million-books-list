@@ -11,10 +11,8 @@ from the local `env` file if you want test custom `env` locally, you can create 
 `.env.development.local` or `.env.production.local` file which will have more priority   
 over `.env.development`, `.env.production` and `.env`.
 
-`
-  **REACT_APP_BOOKS_LIMIT=1000000** // Production - Total books limit generated
-  **REACT_APP_CHUNK_PARTS=10** // Production - Amount of chunks to be loaded   
-`
+**REACT_APP_BOOKS_LIMIT=1000000** // Production - Total books limit generated   
+**REACT_APP_CHUNK_PARTS=10** // Production - Amount of chunks to be loaded   
 
 # Development
 To start the development mode run the command:   
