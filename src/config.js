@@ -1,6 +1,7 @@
 export const palette = {
-  hawkesBlue: '#DBDFE8',
+  hawkesBlue: '#ececec',
   echoBlue: '#9FAFCA',
+  white: '#FFFFFF',
   gulfBlue: '#31405E'
 }
 

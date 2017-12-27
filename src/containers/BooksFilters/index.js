@@ -52,7 +52,7 @@ class BooksFilters extends PureComponent {
               checked={selected}
               onChange={this.handleFilterChange}
             />
-            <Icon color={selected ? palette.gulfBlue : palette.echoBlue } />
+            <Icon color={selected ? palette.white : palette.echoBlue } />
           </div>
         ))}
       </div>
@@ -65,7 +65,7 @@ class BooksFilters extends PureComponent {
 
     return sortBooks.values.map(({ id, Arrow, value, asc }, index) => [
       <div className="BooksFilters-sort-filter" key={id}>
-        <span style={{ color: typeof asc !== 'boolean' ? palette.echoBlue : palette.gulfBlue }}>{value}</span>
+        <span style={{ color: typeof asc !== 'boolean' ? palette.echoBlue : palette.white }}>{value}</span>
         <input
           type="checkbox"
           data-filter={SORT_BOOKS}
@@ -75,7 +75,7 @@ class BooksFilters extends PureComponent {
         />
         {<Arrow
           inverted={!asc && typeof asc === 'boolean'}
-          color={typeof asc !== 'boolean' ? palette.echoBlue : palette.gulfBlue}
+          color={typeof asc !== 'boolean' ? palette.echoBlue : palette.white}
           size="10"
         />}
       </div>,
